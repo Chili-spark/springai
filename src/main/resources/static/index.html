@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChiliChat</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+    <!-- 装饰背景元素 -->
+    <div class="background-decoration">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        <div class="circle circle-4"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- 左侧边栏 -->
+        <div class="sidebar left-sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo-placeholder.png" alt="Logo" class="sidebar-logo">
+                <h2>ChiliChat</h2>
+            </div>
+            <div class="feature-list">
+                <div class="feature-item active" data-feature="chat">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>智能对话</span>
+                </div>
+                <div class="feature-item" data-feature="vacation">
+                    <i class="fas fa-plane-departure"></i>
+                    <span>出行计划</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-image"></i>
+                    <span>图像生成</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>文本摘要</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-code"></i>
+                    <span>代码助手</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天主区域 -->
+        <div class="chat-container" id="chatFeature">
+            <div class="chat-header">
+                <div class="logo-container">
+                    <img src="img/logo-placeholder.png" alt="Logo" class="logo" id="chatLogo">
+                    <h1>智能对话</h1>
+                </div>
+                <button id="newChat" class="new-chat-btn">
+                    <span>新对话</span>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- 消息将在这里动态加载 -->
+                <div class="message bot animate__animated animate__fadeIn">
+                    <div class="message-content">
+                        您好！我是您的AI助手，有什么可以帮您的吗？
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <textarea id="messageInput" placeholder="请输入您的问题..." rows="2"></textarea>
+                <button id="sendBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- 出行计划功能区 -->
+        <div class="chat-container vacation-container" id="vacationFeature" style="display: none;">
+            <div class="chat-header">
+                <div class="logo-container">
+                    <i class="fas fa-plane-departure logo-icon"></i>
+                    <h1>出行计划</h1>
+                </div>
+                <button id="newVacation" class="new-chat-btn">
+                    <span>清空表单</span>
+                </button>
+            </div>
+            <div class="vacation-content">
+                <div class="vacation-form">
+                    <h2>填写您的出行信息</h2>
+                    <div class="form-group">
+                        <label for="destination">目的地</label>
+                        <input type="text" id="destination" placeholder="例如：北京、上海、三亚" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="peopleCount">出行人数</label>
+                        <input type="number" id="peopleCount" min="1" value="2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">出行天数</label>
+                        <input type="number" id="duration" min="1" value="3" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget">预算范围</label>
+                        <input type="text" id="budget" placeholder="例如：5000元/人" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="travelDate">出行日期 (可选)</label>
+                        <input type="text" id="travelDate" placeholder="例如：2025年7月">
+                    </div>
+                    <div class="form-group">
+                        <label for="interests">兴趣偏好 (可选)</label>
+                        <input type="text" id="interests" placeholder="例如：美食、历史、自然风光">
+                    </div>
+                    <button id="generatePlanBtn" class="submit-btn">生成出行计划</button>
+                </div>
+                <div class="vacation-result" style="display: none;">
+                    <div class="result-header">
+                        <h2>您的专属出行计划</h2>
+                        <button id="backToForm" class="back-btn"><i class="fas fa-arrow-left"></i> 返回表单</button>
+                    </div>
+                    <div class="loading-indicator" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>正在生成您的专属出行计划，请稍候...</p>
+                    </div>
+                    <div class="result-content" id="planResult"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧边栏 -->
+        <div class="sidebar right-sidebar">
+            <div class="sidebar-header">
+                <h3>历史会话</h3>
+                <button class="clear-history"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="history-list">
+                <div class="history-item">
+                    <div class="history-title">设计模式讨论</div>
+                    <div class="history-date">刚刚</div>
+                </div>
+                <div class="history-item">
+                    <div class="history-title">Java编程疑难解答</div>
+                    <div class="history-date">昨天</div>
+                </div>
+                <div class="history-item">
+                    <div class="history-title">机器学习原理探讨</div>
+                    <div class="history-date">上周</div>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="theme-toggle">
+                    <span>深色模式</span>
+                    <label class="switch">
+                        <input type="checkbox" id="themeToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/chat.js"></script>
+    <script src="js/vacation.js"></script>
+</body>
+</html> 
